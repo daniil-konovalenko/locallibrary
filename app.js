@@ -13,7 +13,11 @@ var users = require('./routes/users');
 var mongoose = require('mongoose');
 
 // Set up default mongoose connection
-mongoose.connect(config.mongoUri);
+mongoose.connect(config.mongoUri).then(
+    () => { console.log("Connection successful") },
+    err => { console.error(err) }
+ );
+
 
 var db = mongoose.connection;
 
