@@ -5,9 +5,21 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
+var config = require('./config');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+
+var mongoose = require('mongoose');
+
+// Set up default mongoose connection
+mongoose.connect(config.mongoUri);
+
+var db = mongoose.connection;
+
+// Bing connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 
 var app = express();
 
