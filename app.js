@@ -5,9 +5,26 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
+var config = require('./config');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var catalog = require('./routes/catalog');  //Import routes for "catalog" area of site
+
+var mongoose = require('mongoose');
+
+// Set up default mongoose connection
+mongoose.connect(config.mongoUri).then(
+    () => { console.log("Connection successful") },
+    err => { console.error(err) }
+ );
+
+
+var db = mongoose.connection;
+
+// Bing connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 
 var app = express();
 
@@ -31,6 +48,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/catalog', catalog);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -34,3 +34,6 @@ npm-debug.log
 **/.idea/workspace.xml
 **/.idea/tasks.xml
 *.iws
+
+# Local configuration files
+config.js
